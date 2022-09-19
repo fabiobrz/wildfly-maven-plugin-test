@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>wildfly-maven-plugin-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <!-- _Current_ WildFly/EAP version -->
+        <wildfly.version>27.0.0.Alpha4</wildfly.version>
+        <!--	WildFly/EAP Maven Plugin coordinates -->
+        <wildfly-maven-plugin.groupId>org.wildfly.plugins</wildfly-maven-plugin.groupId>
+        <wildfly-maven-plugin.artifactId>wildfly-maven-plugin</wildfly-maven-plugin.artifactId>
+        <wildfly-maven-plugin.version>3.0.2.Final</wildfly-maven-plugin.version>
+        <!-- _Current_ WildFly/EAP EE Feature Pack coordinates -->
+        <wildfly.ee-feature-pack.groupId>org.wildfly</wildfly.ee-feature-pack.groupId>
+        <wildfly.ee-feature-pack.artifactId>wildfly-ee-galleon-pack</wildfly.ee-feature-pack.artifactId>
+        <wildfly.ee-feature-pack.version>${wildfly.version}</wildfly.ee-feature-pack.version>
+        <!-- _Current_ WildFly/EAP Cloud Feature Pack coordinates -->
+        <wildfly.cloud-feature-pack.groupId>org.wildfly.cloud</wildfly.cloud-feature-pack.groupId>
+        <wildfly.cloud-feature-pack.artifactId>wildfly-cloud-galleon-pack</wildfly.cloud-feature-pack.artifactId>
+        <wildfly.cloud-feature-pack.version>1.1.2.Final</wildfly.cloud-feature-pack.version>
+        <!-- WildFly/EAP feature pack locations are set based on feature pack related properties -->
+        <wildfly-ee-feature-pack.location>${wildfly.ee-feature-pack.groupId}:${wildfly.ee-feature-pack.artifactId}:${wildfly.ee-feature-pack.version}</wildfly-ee-feature-pack.location>
+        <wildfly-cloud-feature-pack.location>${wildfly.cloud-feature-pack.groupId}:${wildfly.cloud-feature-pack.artifactId}:${wildfly.cloud-feature-pack.version}</wildfly-cloud-feature-pack.location>
+
+        <wildfly-deployment.filename>ROOT</wildfly-deployment.filename>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>${wildfly-maven-plugin.groupId}</groupId>
+                <artifactId>${wildfly-maven-plugin.artifactId}</artifactId>
+                <version>${wildfly-maven-plugin.version}</version>
+                <configuration>
+                    <feature-packs>
+                        <feature-pack>
+                            <location>${wildfly-ee-feature-pack.location}</location>
+                        </feature-pack>
+                        <feature-pack>
+                            <location>${wildfly-cloud-feature-pack.location}</location>
+                        </feature-pack>
+                    </feature-packs>
+                    <layers>
+                        <layer>cloud-default-config</layer>
+                    </layers>
+                    <filename>${wildfly-deployment.filename}.war</filename>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
